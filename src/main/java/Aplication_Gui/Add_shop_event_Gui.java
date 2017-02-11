@@ -1,12 +1,13 @@
-
 package Aplication_Gui;
+
+import Aplication_methods.Conf_JTextField;
+import Aplication_methods.Conf_Jlabel;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.io.*;
 import java.util.ArrayList;
 
 public class Add_shop_event_Gui extends JFrame {
@@ -25,51 +26,52 @@ public class Add_shop_event_Gui extends JFrame {
 
     private JButton btn_add;
     private JButton btn_Excel;
+    private JButton btn_new_shop;
 
     /*-----------------------------*/
-    private JLabel JT_id_label;
-    private JLabel JT_goods_label;
-    private JLabel JT_count_label;
-    private JLabel JT_sort_label;
-    private JLabel Jt_price_label;
+    private Conf_Jlabel JT_id_label;
+    private Conf_Jlabel JT_goods_label;
+    private Conf_Jlabel JT_count_label;
+    private Conf_Jlabel JT_sort_label;
+    private Conf_Jlabel Jt_price_label;
 
-    private JTextField JT_id;
-    private JTextField JT_goods;
-    private JTextField JT_count;
-    private JTextField JT_sort;
-    private JTextField Jt_price;
+    private Conf_JTextField JT_id;
+    private Conf_JTextField JT_goods;
+    private Conf_JTextField JT_count;
+    private Conf_JTextField JT_sort;
+    private Conf_JTextField Jt_price;
     /*-----------------------------*/
 
     /*-----------------------------*/
-    private JLabel Jt_Shop_name_label;
-    private JLabel Jt_Shop_year_label;
-    private JLabel Jt_Shop_day_label;
-    private JLabel Jt_Shop_month_label;
+    private Conf_Jlabel Jt_Shop_name_label;
+    private Conf_Jlabel Jt_Shop_year_label;
+    private Conf_Jlabel Jt_Shop_day_label;
+    private Conf_Jlabel Jt_Shop_month_label;
 
     private JComboBox Shop_name;
     private JComboBox Shop_year;
     private JComboBox Shop_day;
     private JComboBox Shop_month;
-   /*-----------------------------*/
+    /*-----------------------------*/
 
+    private ArrayList<Zakaz_data> zakaz_addid_list = new ArrayList<>();
+    private int qanak = 0;
     private int shop_name = 1;
+
 
     public Add_shop_event_Gui(String ident) {
 
-        if(ident.equals("show")) {
+        if (ident.equals("show")) {
             Zakaz_data_read.read_Zakaz_data();
         }
 
         /*--------------------------------------------------------------*/
-        Jt_Shop_name_label = new JLabel("Shop name");
-        Jt_Shop_year_label = new JLabel("Year");
-        Jt_Shop_day_label = new JLabel("Day");
-        Jt_Shop_month_label = new JLabel("Month");
 
-        Jt_Shop_name_label.setBounds(10, 20, 100, 20);
-        Jt_Shop_month_label.setBounds(320, 20, 50, 20);
-        Jt_Shop_year_label.setBounds(470, 20, 50, 20);
-        Jt_Shop_day_label.setBounds(620, 20, 50, 20);
+        Jt_Shop_name_label = new Conf_Jlabel("Shop name", 10, 20, 100, 20);
+        Jt_Shop_year_label = new Conf_Jlabel("Year", 320, 20, 50, 20);
+        Jt_Shop_day_label = new Conf_Jlabel("Day", 470, 20, 50, 20);
+        Jt_Shop_month_label = new Conf_Jlabel("Month", 620, 20, 50, 20);
+
         /*--------------------------------------------------------------*/
 
         /*--------------------------------------------------------------*/
@@ -79,73 +81,66 @@ public class Add_shop_event_Gui extends JFrame {
         Shop_month = new JComboBox(month);
 
         Shop_name.setBounds(100, 20, 200, 20);
-        Shop_month.setBounds(370, 20, 90, 20);
-        Shop_year.setBounds(530, 20, 70, 20);
-        Shop_day.setBounds(670, 20, 70, 20);
+        Shop_month.setBounds(670, 20, 90, 20);
+        Shop_year.setBounds(370, 20, 70, 20);
+        Shop_day.setBounds(530, 20, 70, 20);
         /*--------------------------------------------------------------*/
 
         /*--------------------------------------------------------------*/
-        JT_id_label = new JLabel("Id");
-        JT_goods_label = new JLabel("Goods name");
-        JT_count_label = new JLabel("Count");
-        JT_sort_label = new JLabel("Sort");
-        Jt_price_label = new JLabel("Price");
 
-        JT_id_label.setBounds(10, 50, 150, 20);
-        JT_goods_label.setBounds(10, 80, 150, 20);
-        JT_count_label.setBounds(10, 110, 150, 20);
-        JT_sort_label.setBounds(10, 140, 150, 20);
-        Jt_price_label.setBounds(10, 170, 150, 20);
+        JT_id_label = new Conf_Jlabel("Id", 10, 50, 150, 20);
+        JT_goods_label = new Conf_Jlabel("Goods name", 10, 80, 150, 20);
+        JT_count_label = new Conf_Jlabel("Count", 10, 110, 150, 20);
+        JT_sort_label = new Conf_Jlabel("Sort", 10, 140, 150, 20);
+        Jt_price_label = new Conf_Jlabel("Price", 10, 170, 150, 20);
+
         /*--------------------------------------------------------------*/
 
         /*--------------------------------------------------------------*/
-        JT_id = new JTextField(20);
-        JT_goods = new JTextField(20);
-        JT_count = new JTextField(20);
-        JT_sort = new JTextField(20);
-        Jt_price = new JTextField(20);
 
-        JT_id.setBounds(130, 50, 150, 20);
-        JT_goods.setBounds(130, 80, 150, 20);
-        JT_count.setBounds(130, 110, 150, 20);
-        JT_sort.setBounds(130, 140, 150, 20);
-        Jt_price.setBounds(130, 170, 150, 20);
+        JT_id = new Conf_JTextField(20, 130, 50, 150, 20);
+        JT_goods = new Conf_JTextField(20, 130, 80, 150, 20);
+        JT_count = new Conf_JTextField(20, 130, 110, 150, 20);
+        JT_sort = new Conf_JTextField(20, 130, 140, 150, 20);
+        Jt_price = new Conf_JTextField(20, 130, 170, 150, 20);
+
         /*--------------------------------------------------------------*/
 
         /*--------------------------------------------------------------*/
         btn_add = new JButton("ADD");
-        btn_Excel = new JButton("UPDATE");
+        btn_Excel = new JButton("CREATE EXCEL");
+        btn_new_shop = new JButton("NEW SHOP");
 
         btn_add.setBounds(300, 80, 100, 20);
-        btn_Excel.setBounds(300, 130, 100, 20);
+        btn_Excel.setBounds(300, 130, 150, 20);
+        btn_new_shop.setBounds(450, 130, 150, 20);
         /*--------------------------------------------------------------*/
 
         /*---------------------------Add info in table start-----------------------------------*/
-            Object[][] zakaz_info = new Object[Add_shop_event_Gui.zakaz.size()][6];
+        Object[][] zakaz_info = new Object[Add_shop_event_Gui.zakaz.size()][6];
 
-            for(int columnNames = 0; columnNames <= zakaz_info.length - 1; ++columnNames) {
-                Object[] model = zakaz_info[columnNames];
-                model[0] = ((Zakaz_data) Add_shop_event_Gui.zakaz.get(columnNames)).getId();
-                model[1] = ((Zakaz_data) Add_shop_event_Gui.zakaz.get(columnNames)).getGoods_name();
-                model[2] = "";
-                model[3] = ((Zakaz_data) Add_shop_event_Gui.zakaz.get(columnNames)).getSort();
-                model[4] = ((Zakaz_data) Add_shop_event_Gui.zakaz.get(columnNames)).getPrice();
-            }
+        for (int columnNames = 0; columnNames <= zakaz_info.length - 1; ++columnNames) {
+            Object[] model = zakaz_info[columnNames];
+            model[0] = ((Zakaz_data) Add_shop_event_Gui.zakaz.get(columnNames)).getId();
+            model[1] = ((Zakaz_data) Add_shop_event_Gui.zakaz.get(columnNames)).getGoods_name();
+            model[2] = "";
+            model[3] = ((Zakaz_data) Add_shop_event_Gui.zakaz.get(columnNames)).getSort();
+            model[4] = ((Zakaz_data) Add_shop_event_Gui.zakaz.get(columnNames)).getPrice();
+        }
 
-            String[] strings = new String[]{"ID", "Goods_name", "Counts", "Sort", "Price"};
-            DefaultTableModel model = (DefaultTableModel)table.getModel();
-            model.setDataVector(zakaz_info, strings);
-            table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        String[] strings = new String[]{"ID", "Goods_name", "Counts", "Sort", "Price"};
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setDataVector(zakaz_info, strings);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         /*---------------------------Add info in table end-----------------------------------*/
 
         pane = new JScrollPane(table);
         pane.setBounds(10, 200, 760, 650);
 
         panel.setBounds(10, 10, 760, 700);
-        panel.setLayout((LayoutManager)null);
+        panel.setLayout((LayoutManager) null);
 
         add(panel);
-
         panel.add(Jt_Shop_name_label);
         panel.add(Shop_name);
 
@@ -175,70 +170,79 @@ public class Add_shop_event_Gui extends JFrame {
 
         panel.add(btn_add);
         panel.add(btn_Excel);
+        panel.add(btn_new_shop);
 
         panel.add(pane);
 
+
         /*---------------------------JFrame configuration start-----------------------------------*/
-            setDefaultCloseOperation(3);
-            Color c = Color.decode("#bdb76b");
-            getContentPane().setBackground(c);
-            setLocation(600, 50);
-            setSize(800, 900);
-            setVisible(true);
+        setDefaultCloseOperation(3);
+        Color c = Color.decode("#bdb76b");
+        getContentPane().setBackground(c);
+        setLocation(600, 50);
+        setSize(800, 900);
+        setVisible(true);
         /*---------------------------JFrame configuration start-----------------------------------*/
 
         zakaz.clear();
 
         /*--------------------------- Table row select Listener start-----------------------------------*/
-            table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-                public void valueChanged(ListSelectionEvent e) {
-                    int i = table.getSelectedRow();
-                    JT_id.setText((String)model.getValueAt(i, 0));
-                    JT_goods.setText((String)model.getValueAt(i, 1));
-                    JT_count.setText((String)model.getValueAt(i, 2));
-                    JT_sort.setText((String)model.getValueAt(i, 3));
-                    Jt_price.setText((String)model.getValueAt(i, 4));
-                }
-            });
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                int i = table.getSelectedRow();
+                JT_id.setText((String) model.getValueAt(i, 0));
+                JT_goods.setText((String) model.getValueAt(i, 1));
+                JT_count.setText((String) model.getValueAt(i, 2));
+                JT_sort.setText((String) model.getValueAt(i, 3));
+                Jt_price.setText((String) model.getValueAt(i, 4));
+            }
+        });
         /*---------------------------Add table row select Listener end-----------------------------------*/
 
-        /*---------------------------Add goods info ib file - Listener start-----------------------------------*/
-            btn_add.addActionListener((e) -> {
-                String filename = "test.txt";
+        /*---------------------------Add goods info in  ArrayList<Zakaz_data>  - Listener start-----------------------------------*/
+        btn_add.addActionListener((e) -> {
+            String filename = "test.txt";
+            if (shop_name == 1) {
+                shop_dates = new Shop_date();
+                shop_dates.setName((String) Shop_name.getSelectedItem());
+                shop_dates.setMonth((String) Shop_month.getSelectedItem());
+                shop_dates.setDay(((Integer) Shop_day.getSelectedItem()).intValue());
+                shop_dates.setYear(((Integer) Shop_year.getSelectedItem()).intValue());
+            }
+            //   JOptionPane.showMessageDialog((Component) null, "Avelacva& e");
+            Zakaz_data addid_zakaz = new Zakaz_data();
+            addid_zakaz.setId(JT_id.getText());
+            addid_zakaz.setGoods_name(JT_goods.getText());
+            addid_zakaz.setCounts(JT_count.getText());
+            addid_zakaz.setSort(JT_sort.getText());
+            addid_zakaz.setPrice(Jt_price.getText());
+            zakaz_addid_list.add(qanak, addid_zakaz);
+            qanak++;
 
-                try {
-                    PrintWriter br = new PrintWriter(new BufferedWriter(new FileWriter(new File("src/" + Shop_name.getSelectedItem() + "_" + filename), true)));
-                    if(shop_name == 1) {
-                        shop_dates = new Shop_date();
-                        shop_dates.setName((String)Shop_name.getSelectedItem());
-                        shop_dates.setMonth((String)Shop_month.getSelectedItem());
-                        shop_dates.setDay(((Integer)Shop_day.getSelectedItem()).intValue());
-                        shop_dates.setYear(((Integer)Shop_year.getSelectedItem()).intValue());
-                    }
-
-                    br.println(JT_id.getText() + "," + JT_goods.getText() + "," + JT_count.getText() + "," + JT_sort.getText() + "," + Jt_price.getText());
-                    br.flush();
-                    br.close();
-                    JOptionPane.showMessageDialog((Component)null, "Avelacva& e");
-                    int i = table.getSelectedRow();
-                    model.setValueAt(JT_count.getText(), i, 2);
-                    shop_name = 0;
-                } catch (IOException e2) {
-                    e2.printStackTrace();
-                }
-            });
-        /*---------------------------Add goods info ib file - Listener end-----------------------------------*/
+            int i = table.getSelectedRow();
+            model.setValueAt(JT_count.getText(), i, 2);
+            shop_name = 0;
+        });
+        /*---------------------------Add goods info in ArrayList<Zakaz_data> - Listener end-----------------------------------*/
 
 
         /*--------------------------- Shop Excel file creating - Listener start-----------------------------------*/
-            int[] a = new int[]{1};
-            btn_Excel.addActionListener((e) -> {
-                if(a[0] == 1) {
-                    (new Excel_add()).esim(shop_dates);
-                    a[0] = 0;
-                }
-            });
+        int[] a = new int[]{1};
+        btn_Excel.addActionListener((e) -> {
+            if (a[0] == 1) {
+                (new Excel_add()).Excel_zakaz(shop_dates, zakaz_addid_list);
+                a[0] = 0;
+            }
+        });
         /*--------------------------- Shop Excel file creating - Listener end-----------------------------------*/
+
+        /*--------------------------- Shop new file creating - Listener start-----------------------------------*/
+        btn_new_shop.addActionListener((e) -> {
+            shop_name=1;
+            a[0] = 1;
+            zakaz_addid_list.clear();
+        });
+        /*--------------------------- Shop new file creating - Listener start-----------------------------------*/
 
     }
 }

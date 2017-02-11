@@ -53,4 +53,12 @@ public class Zakaz_data {
 
     public Zakaz_data() {
     }
+
+    public Zakaz_data(String id, String goods_name, String counts, String sort, String price) {
+        this.id = id;
+        this.goods_name = goods_name;
+        this.counts = counts;
+        this.sort = sort;
+        this.price = price;
+    }
 }

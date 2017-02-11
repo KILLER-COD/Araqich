@@ -8,12 +8,12 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Excel_add {
-    private static ArrayList<Zakaz_data> zakaz = Zakaz_data_read.getZakaz_data();
+   // private static ArrayList<Zakaz_data> zakaz = Zakaz_data_read.getZakaz_data();
 
     public Excel_add() {
     }
 
-    public void esim(Shop_date shop_date) {
+    public void Excel_zakaz(Shop_date shop_date,ArrayList<Zakaz_data> zakaz) {
         try {
             Workbook workbook = new HSSFWorkbook();
             Sheet sheet = workbook.createSheet("Sample sheet");
@@ -33,110 +33,64 @@ public class Excel_add {
                 rowheadin.setFont(region1);
             }
 
-            String Filename = "src/" + shop_date.getName() + "_text_test.txt";
-
-            try {
-                BufferedReader br = new BufferedReader(new FileReader(Filename));
-                String str;
-
-                while ((str = br.readLine()) != null) {
-                    Zakaz_data_read.getZakaz_data().add(Zakaz_data_read.Zakaz_data_Parser(str.split(",")));
-                }
-            } catch (Exception e1) {
-                System.out.println(e1);
-            }
-
-
             Row row1 = sheet.createRow(0);
-            row1.createCell(0).setCellValue("ամիս, ամսաթիվ");
-            row1.createCell(1).setCellValue("    ");
-            row1.createCell(2).setCellValue("    ");
+            String[] collNames = {"ամիս, ամսաթիվ","     ","     "};
+
+            for (int i = 0, j = 6; i < 3 && j < 9; i++, j++) {
+                row1.createCell(i).setCellValue(collNames[i]);
+                row1.getCell(i).setCellStyle(my_style);
+                row1.createCell(j).setCellValue(collNames[i]);
+                row1.getCell(j).setCellStyle(my_style);
+            }
 
             CellRangeAddress range1 = CellRangeAddress.valueOf("D1:E1");
             sheet.addMergedRegion(range1);
 
             row1.createCell(3).setCellValue(shop_date.getName());
+            row1.getCell(3).setCellStyle(my_style);
+            row1.createCell(4).setCellStyle(my_style);
             row1.createCell(5).setCellValue("     ");
 
             Row row2 = sheet.createRow(1);
-                 row2.createCell(0).setCellValue(shop_date.getDay() + "/" + shop_date.getMonth() + "/" + shop_date.getYear());
-                 row2.createCell(6).setCellValue(shop_date.getDay() + "/" + shop_date.getMonth() + "/" + shop_date.getYear());
+            row2.createCell(0).setCellValue(shop_date.getDay() + "/" + shop_date.getMonth() + "/" + shop_date.getYear());
+            row2.createCell(6).setCellValue(shop_date.getDay() + "/" + shop_date.getMonth() + "/" + shop_date.getYear());
+            row2.getCell(0).setCellStyle(my_style);
+            row2.getCell(6).setCellStyle(my_style);
+
 
             Row row3 = sheet.createRow(2);
-            row3.createCell(0).setCellValue("Անվանում");
-            row3.createCell(1).setCellValue("Քան.");
-            row3.createCell(2).setCellValue("Հատ / կգ");
-            row3.createCell(3).setCellValue("Գին");
-            row3.createCell(4).setCellValue("Գումար");
+            String[] collNames2 = {"Անվանում", "Քան.", "Հատ / կգ", "Գին", "Գումար", "",};
 
-            row3.createCell(6).setCellValue("Անվանում");
-            row3.createCell(7).setCellValue("Քան.");
-            row3.createCell(8).setCellValue("Հատ / կգ");
-            row3.createCell(9).setCellValue("Գին");
-            row3.createCell(10).setCellValue("Գումար");
 
-            row1.createCell(6).setCellValue("ամիս, ամսաթիվ");
-            row1.createCell(7).setCellValue("    ");
-            row1.createCell(8).setCellValue("    ");
+            for (int i = 0, j = 6; i < 5 && j < 11; i++, j++) {
+                row3.createCell(i).setCellValue(collNames2[i]);
+                row3.createCell(j).setCellValue(collNames2[i]);
+                row3.getCell(i).setCellStyle(my_style);
+                row3.getCell(j).setCellStyle(my_style);
+            }
             CellRangeAddress region2 = CellRangeAddress.valueOf("J1:K1");
             sheet.addMergedRegion(region2);
             row1.createCell(9).setCellValue(shop_date.getName());
+            row1.getCell(9).setCellStyle(my_style);
+            row1.createCell(10).setCellStyle(my_style);
 
             int summ = 0;
             int r = 3;
 
-            Cell cell1;
-            Cell cell2;
-            Cell cell3;
-            Cell CellAllSum1;
             for (int row = 0; row < zakaz.size(); row++) {
                 Row row4 = sheet.createRow(r);
+                String[] strings = Excel_add_date(zakaz,row);
+                for (int i = 0, j = 6; i < 5 && j < 11; i++, j++) {
+                    row4.createCell(i).setCellValue(String.valueOf(strings[i]));
+                    row4.getCell(i).setCellStyle(my_style);
+                    row4.createCell(j).setCellValue(String.valueOf(strings[i]));
+                    row4.getCell(j).setCellStyle(my_style);
+                }
 
-                    Cell cell = row4.createCell(0);
-                    cell.setCellValue(String.valueOf(((Zakaz_data) zakaz.get(row)).getGoods_name()));
-                    cell.setCellStyle(my_style);
-
-                cell1 = row4.createCell(1);
-                cell1.setCellValue( Integer.parseInt(((Zakaz_data) zakaz.get(row)).getCounts()));
-                cell1.setCellStyle(my_style);
-
-                    cell2 = row4.createCell(2);
-                    cell2.setCellValue(((Zakaz_data) zakaz.get(row)).getSort());
-                    cell2.setCellStyle(my_style);
-
-                cell3 = row4.createCell(3);
-                cell3.setCellValue( Integer.parseInt(((Zakaz_data) zakaz.get(row)).getPrice()));
-                cell3.setCellStyle(my_style);
-
-                    CellAllSum1 = row4.createCell(4);
-                    CellAllSum1.setCellValue( (Integer.parseInt(((Zakaz_data) zakaz.get(row)).getPrice()) * Integer.parseInt(((Zakaz_data) zakaz.get(row)).getCounts())));
-                    CellAllSum1.setCellStyle(my_style);
-
-                Cell cell4 = row4.createCell(6);
-                cell4.setCellValue(String.valueOf(((Zakaz_data) zakaz.get(row)).getGoods_name()));
-                cell4.setCellStyle(my_style);
-
-                    Cell cell5 = row4.createCell(7);
-                    cell5.setCellValue( Integer.parseInt(((Zakaz_data) zakaz.get(row)).getCounts()));
-                    cell5.setCellStyle(my_style);
-
-                Cell cell6 = row4.createCell(8);
-                cell6.setCellValue(((Zakaz_data) zakaz.get(row)).getSort());
-                cell6.setCellStyle(my_style);
-
-                    Cell cell7 = row4.createCell(9);
-                    cell7.setCellValue( Integer.parseInt(((Zakaz_data) zakaz.get(row)).getPrice()));
-                    cell7.setCellStyle(my_style);
-
-                Cell CellAllSum2 = row4.createCell(10);
-                CellAllSum2.setCellValue( (Integer.parseInt(((Zakaz_data) zakaz.get(row)).getPrice()) * Integer.parseInt(((Zakaz_data) zakaz.get(row)).getCounts())));
-                CellAllSum2.setCellStyle(my_style);
-
-                summ += Integer.parseInt(((Zakaz_data) zakaz.get(row)).getPrice()) * Integer.parseInt(((Zakaz_data) zakaz.get(row)).getCounts());
+                summ += Integer.parseInt(strings[1]) * Integer.parseInt( strings[3]);
                 r++;
             }
 
-            System.out.println(r);
             Row sheetRow = sheet.createRow(r);
 
             CellRangeAddress sheetRow1 = CellRangeAddress.valueOf("A" + (r + 1) + ":D" + (r + 1));
@@ -146,30 +100,38 @@ public class Excel_add {
             sheet.addMergedRegion(sheetRow2);
 
             /*----------------------------*/
-            cell1 = sheetRow.createCell(0);
+            Cell cell1 = sheetRow.createCell(0);
+            for (int i = 0; i < 4; i++) {
+                sheetRow.createCell(i).setCellStyle(my_style);
+            }
             cell1.setCellValue("All Price");
             cell1.setCellStyle(my_style);
 
-            cell2 = sheetRow.createCell(4);
+
+            Cell cell2 = sheetRow.createCell(4);
             cell2.setCellValue(summ);
             cell2.setCellStyle(my_style);
             /*----------------------------*/
 
             /*----------------------------*/
-            cell3 = sheetRow.createCell(6);
+            Cell cell3 = sheetRow.createCell(6);
+            for (int i = 6; i < 10; i++) {
+                sheetRow.createCell(i).setCellStyle(my_style);
+            }
             cell3.setCellValue("All Price");
             cell3.setCellStyle(my_style);
 
-            CellAllSum1 = sheetRow.createCell(10);
-            CellAllSum1.setCellValue( summ);
+
+            Cell CellAllSum1 = sheetRow.createCell(10);
+            CellAllSum1.setCellValue(summ);
             CellAllSum1.setCellStyle(my_style);
            /*----------------------------*/
 
-            for (int i = 0; i < zakaz.size(); i++) {
+            for (int i = 0; i < 11; i++) {
                 sheet.autoSizeColumn(i);
             }
 
-            FileOutputStream br = new FileOutputStream(new File("src/" + shop_date.getName() + "_new.xls"));
+            FileOutputStream br = new FileOutputStream(new File(System.getProperty("user.home") + "\\Desktop\\" + shop_date.getName() + "_new.xls"));
             workbook.write(br);
             System.out.println("Excel written Succesfully..");
         } catch (IOException var35) {
@@ -177,4 +139,15 @@ public class Excel_add {
         }
 
     }
+
+    public String[] Excel_add_date(ArrayList<Zakaz_data> zakaz,int num){
+            String[]  strings = new String[6];
+            strings[0] = zakaz.get(num).getGoods_name();
+            strings[1] =zakaz.get(num).getCounts();
+            strings[2] =zakaz.get(num).getSort();
+            strings[3] =zakaz.get(num).getPrice();
+            strings[4] = String.valueOf((Integer.parseInt(zakaz.get(num).getPrice()) * Integer.parseInt( zakaz.get(num).getCounts())));
+        return strings;
+    }
+
 }
