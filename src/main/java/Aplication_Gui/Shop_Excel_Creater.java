@@ -7,10 +7,10 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import java.io.*;
 import java.util.ArrayList;
 
-public class Excel_add {
+public class Shop_Excel_Creater {
    // private static ArrayList<Zakaz_data> zakaz = Zakaz_data_read.getZakaz_data();
 
-    public Excel_add() {
+    public Shop_Excel_Creater() {
     }
 
     public void Excel_zakaz(Shop_date shop_date,ArrayList<Zakaz_data> zakaz) {
