@@ -55,6 +55,8 @@ public class Add_shop_event_Gui extends JFrame {
     /*-----------------------------*/
 
     private ArrayList<Zakaz_data> zakaz_addid_list = new ArrayList<>();
+    private ArrayList<Zakaz_data> pahest_addid_list = new ArrayList<>();
+
     private int qanak = 0;
     private int shop_name = 1;
 
@@ -217,6 +219,14 @@ public class Add_shop_event_Gui extends JFrame {
             addid_zakaz.setSort(JT_sort.getText());
             addid_zakaz.setPrice(Jt_price.getText());
             zakaz_addid_list.add(qanak, addid_zakaz);
+
+            for (int i = 0; i <zakaz_addid_list.size() ; i++) {
+                if (pahest_addid_list.get(i).getId() == zakaz_addid_list.get(qanak).getId()){
+                    pahest_addid_list.get(i).setCounts();
+                }
+                pahest_addid_list.add(qanak,addid_zakaz);
+            }
+
             qanak++;
 
             int i = table.getSelectedRow();
@@ -230,7 +240,7 @@ public class Add_shop_event_Gui extends JFrame {
         int[] a = new int[]{1};
         btn_Excel.addActionListener((e) -> {
             if (a[0] == 1) {
-                (new Excel_add()).Excel_zakaz(shop_dates, zakaz_addid_list);
+                (new Shop_Excel_Creater()).Excel_zakaz(shop_dates, zakaz_addid_list);
                 a[0] = 0;
             }
         });
