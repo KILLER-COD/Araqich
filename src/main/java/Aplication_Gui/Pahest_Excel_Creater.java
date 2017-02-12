@@ -32,11 +32,26 @@ public class Pahest_Excel_Creater {
                 rowheadin.setFont(region1);
             }
 
-            String[] collNames = {"հ/հ","Ապրանքի անուն","Քանակ","Հատ/կգ","Գին","Ընդամենը" };
+
+            Row rowheading = sheet.createRow(0);
+
+            CellRangeAddress sheetRow0 = CellRangeAddress.valueOf("A1:E1");
+            sheet.addMergedRegion(sheetRow0);
+            rowheading.createCell(0).setCellValue("Պ Ա Հ Ե Ս Տ");
+            for (int i = 1; i < 5; i++) {
+                rowheading.createCell(i).setCellStyle(my_style);
+            }
+            rowheading.createCell(5).setCellValue(data.getDay() + "/" + data.getMonth() + "/" + data.getYear());
+            rowheading.getCell(0).setCellStyle(my_style);
+            rowheading.getCell(5).setCellStyle(my_style);
+
+
+
+            String[] collNames = {"հ/հ", "Ապրանքի անուն", "Քանակ", "Հատ/կգ", "Գին", "Ընդամենը"};
 
             int qanak = 2;
             Row row = sheet.createRow(qanak);
-            for (int i = 0; i < 6 ; i++) {
+            for (int i = 0; i < 6; i++) {
                 row.createCell(i).setCellValue(collNames[i]);
                 row.getCell(i).setCellStyle(my_style);
             }
@@ -45,13 +60,13 @@ public class Pahest_Excel_Creater {
             qanak = 3;
             for (int j = 0; j < pahest.size(); j++) {
                 Row row1 = sheet.createRow(qanak);
-                String[] strings = Excel_add_date(pahest,j);
-                for (int i = 0; i < 6 ; i++) {
+                String[] strings = Excel_add_date(pahest, j);
+                for (int i = 0; i < 6; i++) {
                     row1.createCell(i).setCellValue(String.valueOf(strings[i]));
                     row1.getCell(i).setCellStyle(my_style);
                 }
                 qanak++;
-                summ += Integer.parseInt(strings[2]) * Integer.parseInt( strings[4]);
+                summ += Integer.parseInt(strings[2]) * Integer.parseInt(strings[4]);
 
             }
 
@@ -78,11 +93,10 @@ public class Pahest_Excel_Creater {
             for (int i = 0; i < 6; i++) {
                 sheet.autoSizeColumn(i);
             }
-            String Filename = data.getDay()+"_"+data.getMonth()+"_"+data.getYear();
-            FileOutputStream br = new FileOutputStream(new File(System.getProperty("user.home") + "\\Desktop\\" + Filename  + "_new.xls"));
+            String Filename = data.getDay() + "_" + data.getMonth() + "_" + data.getYear();
+            FileOutputStream br = new FileOutputStream(new File(System.getProperty("user.home") + "\\Desktop\\" + Filename + "_new.xls"));
             workbook.write(br);
             System.out.println("Excel written Succesfully..");
-
 
 
         } catch (Exception e) {
@@ -90,14 +104,14 @@ public class Pahest_Excel_Creater {
         }
     }
 
-    public String[] Excel_add_date(ArrayList<Zakaz_data> zakaz,int num){
-        String[]  strings = new String[7];
+    public String[] Excel_add_date(ArrayList<Zakaz_data> zakaz, int num) {
+        String[] strings = new String[7];
         strings[0] = zakaz.get(num).getId();
         strings[1] = zakaz.get(num).getGoods_name();
-        strings[2] =zakaz.get(num).getCounts();
-        strings[3] =zakaz.get(num).getSort();
-        strings[4] =zakaz.get(num).getPrice();
-        strings[5] = String.valueOf((Integer.parseInt(zakaz.get(num).getPrice()) * Integer.parseInt( zakaz.get(num).getCounts())));
+        strings[2] = zakaz.get(num).getCounts();
+        strings[3] = zakaz.get(num).getSort();
+        strings[4] = zakaz.get(num).getPrice();
+        strings[5] = String.valueOf((Integer.parseInt(zakaz.get(num).getPrice()) * Integer.parseInt(zakaz.get(num).getCounts())));
         return strings;
     }
 }

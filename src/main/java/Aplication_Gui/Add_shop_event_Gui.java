@@ -205,9 +205,8 @@ public class Add_shop_event_Gui extends JFrame {
         });
         /*---------------------------Add table row select Listener end-----------------------------------*/
 
-        /*---------------------------Add goods info in  ArrayList<Zakaz_data>  - Listener start-----------------------------------*/
+        /*---------------------------Add goods info in  ArrayList<Zakaz_data>  - Listener start---------------------*/
         btn_add.addActionListener((e) -> {
-            String filename = "test.txt";
             if (shop_name == 1) {
                 shop_dates = new Shop_date();
                 shop_dates.setName((String) Shop_name.getSelectedItem());
@@ -249,7 +248,7 @@ public class Add_shop_event_Gui extends JFrame {
             model.setValueAt(JT_count.getText(), i, 2);
             shop_name = 0;
         });
-        /*---------------------------Add goods info in ArrayList<Zakaz_data> - Listener end-----------------------------------*/
+        /*---------------------------Add goods info in ArrayList<Zakaz_data> - Listener end-------------------------*/
 
 
         /*--------------------------- Shop Excel file creating - Listener start-----------------------------------*/
@@ -273,9 +272,6 @@ public class Add_shop_event_Gui extends JFrame {
         /*--------------------------- Pahest Excel  file creating - Listener start-----------------------------------*/
         btn_pahest_list.addActionListener((e) -> {
             new Pahest_Excel_Creater(shop_dates, pahest_addid_list);
-//            for (int i = 0; i < pahest_addid_list.size() ; i++) {
-//                System.out.println(pahest_addid_list.get(i).toString());
-//            }
         });
         /*--------------------------- Pahest Excel  file creating - Listener end-----------------------------------*/
     }
