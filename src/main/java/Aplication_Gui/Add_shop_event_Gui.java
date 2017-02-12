@@ -27,6 +27,7 @@ public class Add_shop_event_Gui extends JFrame {
     private JButton btn_add;
     private JButton btn_Excel;
     private JButton btn_new_shop;
+    private JButton btn_pahest_list;
 
     /*-----------------------------*/
     private Conf_Jlabel JT_id_label;
@@ -112,10 +113,12 @@ public class Add_shop_event_Gui extends JFrame {
         btn_add = new JButton("ADD");
         btn_Excel = new JButton("CREATE EXCEL");
         btn_new_shop = new JButton("NEW SHOP");
+        btn_pahest_list = new JButton("CREATE PAHEST EXCEL");
 
         btn_add.setBounds(300, 80, 100, 20);
         btn_Excel.setBounds(300, 130, 150, 20);
         btn_new_shop.setBounds(450, 130, 150, 20);
+        btn_pahest_list.setBounds(300, 160, 200, 20);
         /*--------------------------------------------------------------*/
 
         /*---------------------------Add info in table start-----------------------------------*/
@@ -173,6 +176,7 @@ public class Add_shop_event_Gui extends JFrame {
         panel.add(btn_add);
         panel.add(btn_Excel);
         panel.add(btn_new_shop);
+        panel.add(btn_pahest_list);
 
         panel.add(pane);
 
@@ -220,12 +224,24 @@ public class Add_shop_event_Gui extends JFrame {
             addid_zakaz.setPrice(Jt_price.getText());
             zakaz_addid_list.add(qanak, addid_zakaz);
 
-            for (int i = 0; i <zakaz_addid_list.size() ; i++) {
-                if (pahest_addid_list.get(i).getId() == zakaz_addid_list.get(qanak).getId()){
-                    pahest_addid_list.get(i).setCounts();
+            if (pahest_addid_list.size() > 0) {
+                int avelacnel = 1;
+                for (int i = 0; i < pahest_addid_list.size(); i++) {
+                    if (pahest_addid_list.get(i).getId().equals(JT_id.getText())) {
+                        int pahest = Integer.parseInt(pahest_addid_list.get(i).getCounts());
+                        int pahest_addid = Integer.parseInt(JT_count.getText());
+                        int goods_sum = pahest + pahest_addid;
+                        pahest_addid_list.get(i).setCounts(String.valueOf(goods_sum));
+                        avelacnel = 0;
+                    }
                 }
-                pahest_addid_list.add(qanak,addid_zakaz);
+                if (avelacnel == 1) {
+                    pahest_addid_list.add(pahest_addid_list.size(), addid_zakaz);
+                }
+            } else {
+                pahest_addid_list.add(qanak, addid_zakaz);
             }
+
 
             qanak++;
 
@@ -248,11 +264,19 @@ public class Add_shop_event_Gui extends JFrame {
 
         /*--------------------------- Shop new file creating - Listener start-----------------------------------*/
         btn_new_shop.addActionListener((e) -> {
-            shop_name=1;
+            shop_name = 1;
             a[0] = 1;
             zakaz_addid_list.clear();
         });
-        /*--------------------------- Shop new file creating - Listener start-----------------------------------*/
+        /*--------------------------- Shop new file creating - Listener end-----------------------------------*/
 
+        /*--------------------------- Pahest Excel  file creating - Listener start-----------------------------------*/
+        btn_pahest_list.addActionListener((e) -> {
+            new Pahest_Excel_Creater(shop_dates, pahest_addid_list);
+//            for (int i = 0; i < pahest_addid_list.size() ; i++) {
+//                System.out.println(pahest_addid_list.get(i).toString());
+//            }
+        });
+        /*--------------------------- Pahest Excel  file creating - Listener end-----------------------------------*/
     }
 }
